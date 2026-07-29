@@ -1,0 +1,32 @@
+{
+  "name": "hederapay-agents",
+  "version": "2.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "data-service": "tsx src/dataService.ts",
+    "credit-risk": "tsx src/creditRiskAgent.ts",
+    "pool-monitor": "tsx src/poolMonitorAgent.ts",
+    "repayment-reminder": "tsx src/repaymentReminderAgent.ts",
+    "e2e:x402": "tsx scripts/e2e-x402-pay.ts",
+    "e2e:x402-usdc": "tsx scripts/e2e-x402-usdc-pay.ts",
+    "associate-usdc": "tsx scripts/associate-usdc.ts",
+    "fund-usdc": "tsx scripts/fund-usdc-transfer.ts",
+    "transfer-hbar": "tsx scripts/transfer-hbar.ts"
+  },
+  "dependencies": {
+    "@x402/axios": "^2.19.0",
+    "@x402/core": "^2.19.0",
+    "@x402/express": "^2.19.0",
+    "@x402/fetch": "^2.19.0",
+    "@x402/hedera": "^2.19.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

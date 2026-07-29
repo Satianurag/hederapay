@@ -1,0 +1,22 @@
+{
+  "name": "hederapay-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "yield": "tsx src/handlers/yieldDistribution.ts",
+    "listen": "tsx src/handlers/eventHandlers.ts"
+  },
+  "dependencies": {
+    "@hiero-ledger/sdk": "^2.84.0",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.5",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.11",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

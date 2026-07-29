@@ -1,0 +1,12 @@
+{
+  "schedule": "0 0 */7 * *",
+  "poolAddress": "",
+  "yieldReserveAddress": "",
+  "hederaRpcUrl": "https://testnet.hashio.io/api",
+  "saucerswapV2Router": "0.0.1414040",
+  "saucerswapV2Quoter": "0.0.1390002",
+  "whbarAddress": "0xb1F616b8134F602c3Bb465fB5b5e6565cCAd37Ed",
+  "chainlinkHbarUsdFeed": "0x59bC155EB6c6C415fE43255aF66EcF0523c92B4a",
+  "slippageBps": 50,
+  "gasLimit": "500000"
+}

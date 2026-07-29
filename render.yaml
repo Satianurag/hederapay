@@ -1,0 +1,66 @@
+# Render Blueprint — HederaPay on Neon PostgreSQL
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: hederapay-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate && npx prisma db push --accept-data-loss
+    startCommand: npx tsx src/server.ts
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: PORT
+        value: "10000"
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: POOL_CONTRACT_ADDRESS
+        sync: false
+      - key: YIELD_RESERVE_ADDRESS
+        sync: false
+      - key: DEPLOYER_PRIVATE_KEY
+        sync: false
+      - key: HEDERA_ACCOUNT_ID
+        sync: false
+      - key: SELLER_ACCOUNT_ID
+        sync: false
+      - key: AGENT_PRIVATE_KEY
+        sync: false
+      - key: HEDERA_RPC_URL
+        value: https://testnet.hashio.io/api
+      - key: HEDERA_NETWORK
+        value: hedera:testnet
+      - key: X402_FACILITATOR_URL
+        value: https://api.testnet.blocky402.com
+
+  - type: web
+    name: hederapay-web
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+      - key: NEXT_PUBLIC_POOL_ADDRESS
+        sync: false
+      - key: NEXT_PUBLIC_YIELD_RESERVE_ADDRESS
+        sync: false
+      - key: NEXT_PUBLIC_WHBAR_ADDRESS
+        value: "0xb1F616b8134F602c3Bb465fB5b5e6565cCAd37Ed"
+      - key: NEXT_PUBLIC_USDC_ADDRESS
+        value: "0x0000000000000000000000000000000000068cda"

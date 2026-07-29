@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  role           String
+  walletAddress  String?
+  approved       Boolean  @default(false)
+  approvalStatus String   @default("pending")
+  approvedBy     String?
+  approvedAt     DateTime?
+  kybProfile     Json?
+  kyrScore       Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([role])
+  @@index([walletAddress])
+}
+
+model Pool {
+  id                   String   @id @default(cuid())
+  poolContractAddress  String   @unique
+  yieldReserveAddress  String
+  drawdownLimit        String
+  pspRatePerDay        Int
+  investorAPY          Int
+  totalLiquidity       String   @default("0")
+  availableLiquidity   String   @default("0")
+  initialized          Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Deposit {
+  id          String    @id @default(cuid())
+  lpAddress   String
+  amount      String
+  txHash      String    @unique
+  status      String    @default("pending")
+  confirmedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([lpAddress])
+}
+
+model Drawdown {
+  id                  String    @id @default(cuid())
+  pspAddress          String
+  amount              String
+  txHash              String?
+  status              String    @default("pending_approval")
+  adminApprovalRequired Boolean @default(false)
+  adminApprovedBy     String?
+  requestId           Int?
+  riskScore           Int?
+  riskRating          String?
+  riskRecommendation  String?
+  executedAt          DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([pspAddress])
+  @@index([status])
+}
+
+model Repayment {
+  id                  String    @id @default(cuid())
+  pspAddress          String
+  amount              String
+  token               String
+  tokenSymbol         String
+  txHash              String    @unique
+  status              String    @default("pending")
+  convertedUsdcAmount String?
+  feePortion          String?
+  principalPortion    String?
+  daysElapsed         Int?
+  confirmedAt         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([pspAddress])
+}
+
+model YieldDistribution {
+  id               String   @id @default(cuid())
+  cycle            Int      @unique
+  totalDistributed String
+  lpPayouts        Json
+  txHash           String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String
+  action    String
+  details   Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([actor])
+  @@index([action])
+  @@index([createdAt])
+}

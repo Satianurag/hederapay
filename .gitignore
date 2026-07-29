@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.logs/
+.env
+.env.local
+frontend/.env.local
+contracts/cache/
+contracts/artifacts/
+backend/dist/
+e2e-proof-report.txt
+deploy/oracle-vm.env
