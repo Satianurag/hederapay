@@ -15,7 +15,7 @@ Programmable credit liquidity for Payment Service Providers on **Hedera testnet*
 | Wallet | `@hashgraph/hedera-wallet-connect` + Reown AppKit (HashPack) |
 | EVM / contracts | Hardhat → Hedera testnet (chainId **296**), WHBAR pool asset |
 | DEX | SaucerSwap V2 Router `0.0.1414040`, QuoterV2 `0.0.1390002` |
-| Oracles | Chainlink USDC/USD on Hedera testnet |
+| Oracles | Chainlink HBAR/USD on Hedera testnet |
 | Automation | `hedera-automation/` (ethers + node-cron on Hedera JSON-RPC) |
 | Explorer | [HashScan testnet](https://hashscan.io/testnet) |
 
@@ -69,7 +69,7 @@ HederaPay/
 ├── agent/                 # x402 agents (@x402/hedera, HBAR payments)
 ├── contracts/             # Pool.sol + YieldReserve.sol on Hedera EVM
 ├── hedera-automation/     # Yield cron + SaucerSwap event handlers
-├── backend/               # Express API + MongoDB
+├── backend/               # Express API + Prisma/Neon PostgreSQL
 ├── frontend/              # Next.js + HashPack + wagmi (hederaTestnet)
 ```
 

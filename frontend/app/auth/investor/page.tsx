@@ -71,7 +71,7 @@ export default function InvestorRegisterPage() {
               5%
             </div>
             <div>
-              <div className="text-sm font-medium text-foreground">Fixed APY on USDC</div>
+              <div className="text-sm font-medium text-foreground">Fixed APY on WHBAR</div>
               <div className="text-xs text-muted-foreground">Weekly distributions, withdraw anytime</div>
             </div>
           </div>

@@ -6,20 +6,14 @@ cd "$ROOT"
 
 log() { echo "[start-all] $*"; }
 
-# MongoDB (Docker)
-if ! curl -s --max-time 2 mongodb://127.0.0.1:27017 >/dev/null 2>&1; then
-  if command -v docker >/dev/null 2>&1; then
-    if docker ps -a --format '{{.Names}}' | grep -qx hederapay-mongo; then
-      log "Starting hederapay-mongo container..."
-      docker start hederapay-mongo >/dev/null 2>&1 || true
-    else
-      log "Creating hederapay-mongo container..."
-      docker run -d --name hederapay-mongo -p 27017:27017 mongo:7 >/dev/null
-    fi
-    sleep 2
-  else
-    log "WARN: MongoDB not reachable — install MongoDB or Docker"
-  fi
+if [ ! -f "$ROOT/.env" ]; then
+  log "ERROR: .env missing — copy .env.example and set DATABASE_URL + Hedera keys"
+  exit 1
+fi
+
+if ! grep -q '^DATABASE_URL=.' "$ROOT/.env" 2>/dev/null; then
+  log "ERROR: DATABASE_URL not set in .env (Neon PostgreSQL required)"
+  exit 1
 fi
 
 kill_port() {
@@ -37,16 +31,19 @@ done
 
 mkdir -p "$ROOT/.logs"
 
-# Frontend env (Next.js only reads frontend/.env.local)
+# Frontend env (Next.js reads frontend/.env.local)
 if [ -f "$ROOT/.env" ]; then
-  grep -E '^(NEXT_PUBLIC_|MONGODB_URI|JWT_SECRET|HEDERA_RPC_URL)=' "$ROOT/.env" >"$ROOT/frontend/.env.local" 2>/dev/null || true
-  if ! grep -q MONGODB_URI "$ROOT/frontend/.env.local" 2>/dev/null; then
-    echo "MONGODB_URI=mongodb://localhost:27017/hederapay" >>"$ROOT/frontend/.env.local"
-  fi
+  grep -E '^(NEXT_PUBLIC_|JWT_SECRET|HEDERA_RPC_URL|BACKEND_API_URL)=' "$ROOT/.env" >"$ROOT/frontend/.env.local" 2>/dev/null || true
   if ! grep -q NEXT_PUBLIC_API_URL "$ROOT/frontend/.env.local" 2>/dev/null; then
     echo "NEXT_PUBLIC_API_URL=http://localhost:4000/api" >>"$ROOT/frontend/.env.local"
   fi
+  if ! grep -q BACKEND_API_URL "$ROOT/frontend/.env.local" 2>/dev/null; then
+    echo "BACKEND_API_URL=http://localhost:4000/api" >>"$ROOT/frontend/.env.local"
+  fi
 fi
+
+log "Prisma generate + db push"
+(cd "$ROOT/backend" && npx prisma generate && npx prisma db push --accept-data-loss) >>"$ROOT/.logs/prisma.log" 2>&1
 
 log "Backend → :4000"
 (cd "$ROOT/backend" && npm run start) >"$ROOT/.logs/backend.log" 2>&1 &

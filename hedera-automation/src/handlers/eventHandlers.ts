@@ -1,5 +1,6 @@
 import { config } from "../config.js";
 import { getPoolContract, getWalletProvider, getSaucerSwapQuote } from "../contracts.js";
+import { executeSaucerSwapExactInput, topUpPoolWhbar } from "../saucerSwapRouter.js";
 import {
   getChainlinkHbarUsdSnapshot,
   validateSwapAgainstChainlink,
@@ -41,15 +42,28 @@ export async function startEventHandlers() {
           );
 
           if (config.SAUCERSWAP_QUOTER_EVM) {
-            // Estimate USDC needed to cover WHBAR deficit via SaucerSwap pool
+            // SaucerSwap testnet pool: SS_USDC (0.0.5449) / SS_WHBAR (0.0.15058) — NOT pool WHBAR (0xb1F616...)
             const usdcEstimate = BigInt(Math.max(1, Math.round(deficitUsd * 1e6)));
             const quote = await getSaucerSwapQuote(
               config.SAUCERSWAP_USDC_EVM,
               config.SAUCERSWAP_WHBAR_EVM,
               usdcEstimate
             );
-            console.log("SaucerSwap USDC->WHBAR quote for ~$" + deficitUsd.toFixed(2) + ":", quote.amountOut.toString(), "WHBAR units");
+            console.log("SaucerSwap USDC->WHBAR quote for ~$" + deficitUsd.toFixed(2) + ":", quote.amountOut.toString(), "SS_WHBAR units");
+
+            const signer = getWalletProvider();
+            const swap = await executeSaucerSwapExactInput(
+              signer,
+              config.SAUCERSWAP_USDC_EVM,
+              config.SAUCERSWAP_WHBAR_EVM,
+              usdcEstimate
+            );
+            if (swap) console.log("SaucerSwap swap tx:", swap.txHash);
           }
+
+          // Pool contract holds POOL_WHBAR — transfer from automation wallet before completeDrawdown
+          const topUpTx = await topUpPoolWhbar(getWalletProvider(), config.POOL_ADDRESS, deficit);
+          if (topUpTx) console.log("Pool WHBAR top-up tx:", topUpTx);
 
           const tx = await pool.completeDrawdown(psp, requestId);
           const receipt = await tx.wait();
@@ -63,18 +77,42 @@ export async function startEventHandlers() {
         console.log(`=== Repayment: PSP=${psp} token=${token} amount=${amount} ===`);
         try {
           let whbarAmount = amount;
-          if (token.toLowerCase() !== config.WHBAR_ADDRESS.toLowerCase()) {
-            const swapToken =
-              token.toLowerCase() === config.USDC_EVM_ADDRESS.toLowerCase()
-                ? config.SAUCERSWAP_USDC_EVM
-                : token;
-            const quote = await getSaucerSwapQuote(swapToken, config.SAUCERSWAP_WHBAR_EVM, amount);
-            whbarAmount = quote.amountOut;
-            console.log("SaucerSwap conversion:", amount.toString(), "->", whbarAmount.toString());
+          const isPoolWhbar = token.toLowerCase() === config.WHBAR_ADDRESS.toLowerCase();
+          const isCircleUsdc = token.toLowerCase() === config.USDC_EVM_ADDRESS.toLowerCase();
+          const isSaucerUsdc = token.toLowerCase() === config.SAUCERSWAP_USDC_EVM.toLowerCase();
 
-            if (swapToken.toLowerCase() === config.SAUCERSWAP_USDC_EVM.toLowerCase()) {
+          if (!isPoolWhbar) {
+            if (isSaucerUsdc) {
+              const quote = await getSaucerSwapQuote(config.SAUCERSWAP_USDC_EVM, config.SAUCERSWAP_WHBAR_EVM, amount);
+              whbarAmount = quote.amountOut;
+              console.log("SaucerSwap SS_USDC conversion:", amount.toString(), "->", whbarAmount.toString());
+
+              const swap = await executeSaucerSwapExactInput(
+                getWalletProvider(),
+                config.SAUCERSWAP_USDC_EVM,
+                config.SAUCERSWAP_WHBAR_EVM,
+                amount
+              );
+              if (swap) console.log("SaucerSwap repayment swap tx:", swap.txHash);
+            } else if (isCircleUsdc) {
+              // Circle USDC has no SaucerSwap pool on testnet — oracle estimate only
               const oracle = await getChainlinkHbarUsdSnapshot();
-              const check = validateSwapAgainstChainlink(amount, whbarAmount, oracle);
+              const usd = Number(amount) / 1e6;
+              whbarAmount = BigInt(Math.max(1, Math.round((usd / oracle.priceUsd) * 1e8)));
+              console.log(`Circle USDC repayment: $${usd.toFixed(4)} ≈ ${whbarAmount} pool WHBAR (Chainlink HBAR/USD)`);
+            } else {
+              const quote = await getSaucerSwapQuote(token, config.SAUCERSWAP_WHBAR_EVM, amount);
+              whbarAmount = quote.amountOut;
+              console.log("SaucerSwap conversion:", amount.toString(), "->", whbarAmount.toString());
+            }
+
+            if (isSaucerUsdc || isCircleUsdc) {
+              const oracle = await getChainlinkHbarUsdSnapshot();
+              const check = validateSwapAgainstChainlink(
+                isCircleUsdc ? amount : amount,
+                whbarAmount,
+                oracle
+              );
               console.log(
                 `Oracle check: implied HBAR/USD $${check.impliedHbarUsd.toFixed(6)} vs Chainlink $${oracle.priceUsd.toFixed(6)} → ${check.withinTolerance ? "OK" : "DEVIATION"}`
               );

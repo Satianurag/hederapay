@@ -174,13 +174,13 @@ export default function PSPDashboardPage() {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           <div className="rounded-xl bg-gradient-to-br from-card via-card to-blue-400/5 border border-border/50 p-5">
             <div className="text-xs text-muted-foreground mb-1">Drawdown Limit</div>
-            <div className="text-2xl font-semibold text-foreground">{onChainDrawdownLimit > 0 ? `$${(onChainDrawdownLimit / 1e8).toFixed(0)}` : "—"}</div>
-            <div className="text-xs text-muted-foreground mt-1">USDC</div>
+            <div className="text-2xl font-semibold text-foreground">{onChainDrawdownLimit > 0 ? `${(onChainDrawdownLimit / 1e8).toFixed(4)}` : "—"}</div>
+            <div className="text-xs text-muted-foreground mt-1">WHBAR</div>
           </div>
           <div className="rounded-xl bg-gradient-to-br from-card via-card to-green-400/5 border border-border/50 p-5">
             <div className="text-xs text-muted-foreground mb-1">Pool Available</div>
-            <div className="text-2xl font-semibold text-green-400">{onChainAvailLiq > 0 ? `$${(onChainAvailLiq / 1e8).toFixed(0)}` : "—"}</div>
-            <div className="text-xs text-muted-foreground mt-1">USDC</div>
+            <div className="text-2xl font-semibold text-green-400">{onChainAvailLiq > 0 ? `${(onChainAvailLiq / 1e8).toFixed(4)}` : "—"}</div>
+            <div className="text-xs text-muted-foreground mt-1">WHBAR</div>
           </div>
           <div className="rounded-xl bg-gradient-to-br from-card via-card to-blue-400/5 border border-border/50 p-5">
             <div className="text-xs text-muted-foreground mb-1">KYR Rating</div>
@@ -237,13 +237,13 @@ export default function PSPDashboardPage() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">Amount Drawn</div>
-                    <div className="text-3xl font-semibold text-foreground">${(Number(active.amount) / 1e8).toFixed(2)}</div>
-                    <div className="text-xs text-muted-foreground">USDC</div>
+                    <div className="text-3xl font-semibold text-foreground">{(Number(active.amount) / 1e8).toFixed(4)}</div>
+                    <div className="text-xs text-muted-foreground">WHBAR</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">Accrued Fee</div>
-                    <div className="text-3xl font-semibold text-blue-400">${active.accruedFee ? (Number(active.accruedFee) / 1e8).toFixed(4) : "0.0000"}</div>
-                    <div className="text-xs text-muted-foreground">USDC (0.5%/day)</div>
+                    <div className="text-3xl font-semibold text-blue-400">{active.accruedFee ? (Number(active.accruedFee) / 1e8).toFixed(4) : "0.0000"}</div>
+                    <div className="text-xs text-muted-foreground">WHBAR (0.5%/day)</div>
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs text-muted-foreground">Drawn On</div>
@@ -301,13 +301,13 @@ export default function PSPDashboardPage() {
               {/* Request form — wider */}
               <div className="lg:col-span-3 rounded-xl border border-border/50 bg-gradient-to-br from-card via-card to-blue-400/5 p-8">
                 <div className="text-sm font-medium text-foreground mb-1">Request Drawdown</div>
-                <div className="text-xs text-muted-foreground mb-6">Draw USDC from the pool to fund your settlement operations</div>
+                <div className="text-xs text-muted-foreground mb-6">Draw WHBAR from the pool to fund your settlement operations</div>
                 <div className="space-y-5">
                   <div className="space-y-2">
-                    <label className="text-xs text-muted-foreground">Amount (8 decimal HBAR (tinybar))</label>
-                    <Input value={drawdownAmount} onChange={e => setDrawdownAmount(e.target.value)} placeholder="e.g. 10000000 = $10.00 USDC"
+                    <label className="text-xs text-muted-foreground">Amount (8-decimal WHBAR / tinybar)</label>
+                    <Input value={drawdownAmount} onChange={e => setDrawdownAmount(e.target.value)} placeholder="e.g. 1000000000 = 10 WHBAR"
                       className="bg-background/50 border-border text-xl font-mono h-14" />
-                    {drawdownAmount && <div className="text-xs text-muted-foreground">≈ ${(Number(drawdownAmount) / 1e8).toFixed(2)} USDC</div>}
+                    {drawdownAmount && <div className="text-xs text-muted-foreground">≈ {(Number(drawdownAmount) / 1e8).toFixed(4)} WHBAR</div>}
                   </div>
                   <Button onClick={() => { if (drawdownAmount) requestDrawdown(); }}
                     disabled={loading || !drawdownAmount}
@@ -329,9 +329,9 @@ export default function PSPDashboardPage() {
                   <div className="text-xs font-medium uppercase tracking-widest text-blue-400 mb-4">How It Works</div>
                   <div className="space-y-5">
                     {[
-                      { num: "1", title: "Request", desc: "Enter USDC amount within your limit", icon: "📝" },
+                      { num: "1", title: "Request", desc: "Enter WHBAR amount within your limit", icon: "📝" },
                       { num: "2", title: "AI Risk Check", desc: "Agent scores your credit ($0.018)", icon: "🤖" },
-                      { num: "3", title: "Sign & Receive", desc: "Approve tx to receive USDC", icon: "✍️" },
+                      { num: "3", title: "Sign & Receive", desc: "Approve tx to receive WHBAR", icon: "✍️" },
                       { num: "4", title: "Repay + Fee", desc: "Return principal + 0.5%/day fee", icon: "💰" },
                     ].map(s => (
                       <div key={s.num} className="flex gap-3">

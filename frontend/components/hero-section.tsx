@@ -14,7 +14,7 @@ export function HeroSection() {
           </h1>
 
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground lg:text-lg">
-            HederaPay is a programmable credit pool where licensed PSPs draw USDC for corridor settlement, and institutional investors earn a guaranteed 5% APY — all on-chain, all automated.
+            HederaPay is a programmable credit pool where licensed PSPs draw WHBAR for corridor settlement, and institutional investors earn a guaranteed 5% APY — all on-chain, all automated.
           </p>
 
           <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">

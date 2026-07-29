@@ -7,14 +7,14 @@ export function PoolStatusTerminal() {
           <div className="flex">
             <span className="text-muted-foreground">├─</span>
             <span className="ml-2 text-muted-foreground">Total Liquidity</span>
-            <span className="ml-auto font-medium tabular-nums text-white">$2,000,000</span>
-            <span className="ml-2 text-muted-foreground">USDC</span>
+            <span className="ml-auto font-medium tabular-nums text-white">Live on testnet</span>
+            <span className="ml-2 text-muted-foreground">WHBAR</span>
           </div>
           <div className="flex">
             <span className="text-muted-foreground">├─</span>
             <span className="ml-2 text-muted-foreground">Available</span>
-            <span className="ml-auto font-medium tabular-nums text-foreground">$1,400,000</span>
-            <span className="ml-2 text-muted-foreground">USDC</span>
+            <span className="ml-auto font-medium tabular-nums text-foreground">—</span>
+            <span className="ml-2 text-muted-foreground">WHBAR</span>
           </div>
           <div className="flex">
             <span className="text-muted-foreground">├─</span>

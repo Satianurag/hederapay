@@ -149,13 +149,13 @@ export default function AdminDashboardPage() {
             <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
               <div className="rounded-xl bg-gradient-to-br from-card via-card to-purple-400/5 border border-border/50 p-5">
                 <div className="text-xs text-muted-foreground mb-1">Total Liquidity</div>
-                <div className="text-xl font-semibold text-foreground">${(Number(pool.totalLiquidity) / 1e6).toFixed(2)}</div>
-                <div className="text-xs text-muted-foreground mt-1">USDC</div>
+                <div className="text-xl font-semibold text-foreground">{pool.totalLiquidity ? (Number(pool.totalLiquidity) / 1e8).toFixed(4) : "0"}</div>
+                <div className="text-xs text-muted-foreground mt-1">WHBAR</div>
               </div>
               <div className="rounded-xl bg-gradient-to-br from-card via-card to-green-400/5 border border-border/50 p-5">
                 <div className="text-xs text-muted-foreground mb-1">Available</div>
-                <div className="text-xl font-semibold text-green-400">${(Number(pool.availableLiquidity) / 1e6).toFixed(2)}</div>
-                <div className="text-xs text-muted-foreground mt-1">USDC</div>
+                <div className="text-xl font-semibold text-green-400">{pool.availableLiquidity ? (Number(pool.availableLiquidity) / 1e8).toFixed(4) : "0"}</div>
+                <div className="text-xs text-muted-foreground mt-1">WHBAR</div>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/50 p-4 flex items-center gap-3">
                 <UtilizationRing value={utilization} size={70} />

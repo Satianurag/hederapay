@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button"
 const roles = [
   {
     label: "FOR INVESTORS",
-    heading: "Earn 5% APY on USDC",
+    heading: "Earn 5% APY on WHBAR",
     bullets: [
-      "Deposit USDC into the pool",
+      "Deposit WHBAR into the pool",
       "Fixed yield regardless of utilization",
       "Weekly distributions, withdraw anytime",
     ],
@@ -17,7 +17,7 @@ const roles = [
     label: "FOR BORROWERS (PSPs)",
     heading: "Access Liquidity in Seconds",
     bullets: [
-      "Up to $50K USDC liquidity line",
+      "Up to $50K WHBAR liquidity line",
       "Repay in WHBAR or USDC",
       "AI-powered risk assessment via nanopayments",
     ],

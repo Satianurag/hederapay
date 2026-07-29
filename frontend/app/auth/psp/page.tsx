@@ -73,7 +73,7 @@ export default function PSPRegisterPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="text-2xl font-semibold tracking-tight"><span className="text-foreground">Pay</span><span className="text-blue-400">Mate</span></Link>
-          <p className="text-sm text-muted-foreground mt-2">Apply for a USDC liquidity line</p>
+          <p className="text-sm text-muted-foreground mt-2">Apply for a WHBAR liquidity line</p>
         </div>
 
         {/* Value prop */}
@@ -84,7 +84,7 @@ export default function PSPRegisterPage() {
             </div>
             <div>
               <div className="text-sm font-medium text-foreground">Instant Settlement Liquidity</div>
-              <div className="text-xs text-muted-foreground">Up to $50K USDC · Repay in any stablecoin</div>
+              <div className="text-xs text-muted-foreground">Up to 20 WHBAR · Repay in WHBAR or USDC</div>
             </div>
           </div>
         </div>

@@ -7,12 +7,12 @@ const steps = [
   {
     number: "2",
     title: "Investors Fund Pool",
-    description: "Deposit USDC, earn from Day 1",
+    description: "Deposit WHBAR, earn from Day 1",
   },
   {
     number: "3",
     title: "PSP Draws Capital",
-    description: "Instant USDC for settlement",
+    description: "Instant WHBAR for settlement",
   },
   {
     number: "4",
