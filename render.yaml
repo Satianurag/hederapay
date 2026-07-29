@@ -54,8 +54,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: BACKEND_API_URL
+        value: https://hederapay-api.onrender.com/api
       - key: NEXT_PUBLIC_API_URL
-        sync: false
+        value: https://hederapay-api.onrender.com/api
       - key: NEXT_PUBLIC_POOL_ADDRESS
         sync: false
       - key: NEXT_PUBLIC_YIELD_RESERVE_ADDRESS
