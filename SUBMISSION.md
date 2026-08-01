@@ -12,9 +12,13 @@
 | x402 USDC route config | `cd agent && npx tsx scripts/verify-x402-usdc-config.ts` | PASS |
 | Live x402 payment | `cd agent && npx tsx scripts/e2e-x402-pay.ts` | PASS — settlement on testnet |
 
-### HashScan proof (live x402 micropayment)
+### HashScan proof (live x402 micropayments)
 
-- **Transaction:** https://hashscan.io/testnet/transaction/0.0.7162784@1785560519.673149876
+1. https://hashscan.io/testnet/transaction/0.0.7162784@1785560595.640968335 — credit score
+2. https://hashscan.io/testnet/transaction/0.0.7162784@1785560598.767698917 — compliance check
+3. https://hashscan.io/testnet/transaction/0.0.7162784@1785560606.366440529 — pool health
+4. https://hashscan.io/testnet/transaction/0.0.7162784@1785560610.801275749 — credit score
+5. https://hashscan.io/testnet/transaction/0.0.7162784@1785560617.410916347 — compliance check
 - **Payer:** 0.0.9769419
 - **Facilitator:** Blocky402 (`https://api.testnet.blocky402.com`)
 - **Package:** `@x402/hedera` + `ExactHederaScheme`

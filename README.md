@@ -66,7 +66,12 @@ Total per assessment: **$0.018 HBAR**
 
 Live x402 micropayments verified on Hedera testnet:
 
-- **x402 credit-score payment:** https://hashscan.io/testnet/transaction/0.0.7162784@1785560519.673149876
+1. **Credit score (PSP Alpha):** https://hashscan.io/testnet/transaction/0.0.7162784@1785560595.640968335
+2. **Compliance check (PSP Alpha):** https://hashscan.io/testnet/transaction/0.0.7162784@1785560598.767698917
+3. **Pool health analysis:** https://hashscan.io/testnet/transaction/0.0.7162784@1785560606.366440529
+4. **Credit score (PSP Beta):** https://hashscan.io/testnet/transaction/0.0.7162784@1785560610.801275749
+5. **Compliance check (PSP Beta):** https://hashscan.io/testnet/transaction/0.0.7162784@1785560617.410916347
+
 - **Buyer (agent):** https://hashscan.io/testnet/account/0.0.9769419
 - **Seller (data service):** https://hashscan.io/testnet/account/0.0.9733389
 
