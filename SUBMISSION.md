@@ -14,7 +14,7 @@
 
 ### HashScan proof (live x402 micropayment)
 
-- **Transaction:** https://hashscan.io/testnet/transaction/0.0.7162784@1785344606.746949717
+- **Transaction:** https://hashscan.io/testnet/transaction/0.0.7162784@1785560519.673149876
 - **Payer:** 0.0.9769419
 - **Facilitator:** Blocky402 (`https://api.testnet.blocky402.com`)
 - **Package:** `@x402/hedera` + `ExactHederaScheme`

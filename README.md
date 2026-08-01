@@ -62,6 +62,18 @@ Total per assessment: **$0.018 HBAR**
 
 ---
 
+## Example HashScan links (testnet)
+
+Live x402 micropayments verified on Hedera testnet:
+
+- **x402 credit-score payment:** https://hashscan.io/testnet/transaction/0.0.7162784@1785560519.673149876
+- **Buyer (agent):** https://hashscan.io/testnet/account/0.0.9769419
+- **Seller (data service):** https://hashscan.io/testnet/account/0.0.9733389
+
+Reproduce: `cd agent && npm run data-service` then `npx tsx scripts/e2e-x402-pay.ts`
+
+---
+
 ## Features
 
 - **LP deposits** — WHBAR into pool, earn 5% APY
